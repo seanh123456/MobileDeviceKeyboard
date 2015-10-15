@@ -32,8 +32,7 @@ public class AutocompleteProvider implements IAutocompleteProvider {
 	}
 	
 	private void addWord(String word) {
-		// Regex from: http://stackoverflow.com/questions/18830813/how-can-i-remove-punctuation-from-input-text-in-java
-		word = word.trim().replaceAll("[^\\p{L} ]", "").toLowerCase();
+		word = parseString(word);
 		words.addChild(ArrayUtils.toObject(word.toCharArray()));
 	}
 
@@ -44,9 +43,17 @@ public class AutocompleteProvider implements IAutocompleteProvider {
 	@Override
 	public List<ICandidate> getWords(String fragment) {
 		
+		if (fragment == null)
+			return null;
+		
+		fragment = parseString(fragment);
+		
 		List<ICandidate> candidates = new ArrayList<ICandidate>();
 		// Fetch search results of fragment
 		List<FrequencyTreeItem<Character>> rawCandidates = words.listChildren(ArrayUtils.toObject(fragment.toCharArray()));
+		
+		if (rawCandidates == null)
+			return null;
 		
 		// Convert return values from Character[] to String
 		for (FrequencyTreeItem<Character> rawCandidate : rawCandidates) {
@@ -55,5 +62,14 @@ public class AutocompleteProvider implements IAutocompleteProvider {
 		}
 		
 		return candidates;
+	}
+	
+	/**
+	 * Removes invalid characters from string
+	 * @return
+	 */
+	private String parseString(String rawString) {
+		// Regex from: http://stackoverflow.com/questions/18830813/how-can-i-remove-punctuation-from-input-text-in-java
+		return rawString.trim().replaceAll("[^\\p{L} ]", "").toLowerCase();
 	}
 }

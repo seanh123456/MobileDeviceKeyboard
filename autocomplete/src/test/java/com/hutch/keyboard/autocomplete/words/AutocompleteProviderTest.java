@@ -22,10 +22,40 @@ public class AutocompleteProviderTest {
     }
 	
 	@Test
-	public void testTree() {
-		System.out.println(words.getWords("thi").toString());
-		System.out.println(words.getWords("nee").toString());
-		System.out.println(words.getWords("th").toString());
+	public void testNull() {
+		assertEquals(null, words.getWords(null));
 	}
+	
+	@Test
+	public void testFragment() {
+		assertEquals(7, words.getWords("th").size());
+	}
+	
+	@Test
+	public void testFullWord() {
+		assertEquals(1, words.getWords("thoroughly").size());
+	}
+	
+	@Test
+	public void testNonExistantWord() {
+		assertEquals(null, words.getWords("alexander"));
+	}
+	
+	@Test
+	public void testCase() {
+    	words.train("tHiSiSaCaSeTeSt");
+		assertEquals("thisisacasetest", words.getWords("tHiSiSaCaSeTeSt").get(0).getWord());
+	}
+	
+	@Test
+	public void testDesiredSpecialCharacters() {
+    	words.train("'ÃÆØò");
+		assertEquals("ãæøò", words.getWords("'ÃÆØò").get(0).getWord());
+	}
+	
+//	@Test
+//	public void testSortedOrder() {
+//		assertEquals(null, words.getWords(null));
+//	}
 
 }
