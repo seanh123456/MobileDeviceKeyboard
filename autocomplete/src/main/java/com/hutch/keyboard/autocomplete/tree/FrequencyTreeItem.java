@@ -2,7 +2,7 @@ package com.hutch.keyboard.autocomplete.tree;
 
 import java.util.Arrays;
 
-public class FrequencyTreeItem<T> {
+public class FrequencyTreeItem<T> implements Comparable<FrequencyTreeItem<T>> {
 	private T[] keys;
 	private Integer count;
 	
@@ -21,5 +21,13 @@ public class FrequencyTreeItem<T> {
 	@Override
 	public String toString() {
 		return "FrequencyTreeItem [keys=" + Arrays.toString(keys) + ", count=" + count + "]";
+	}
+
+	/**
+	 * Sorts by count, largest to smallest
+	 */
+	@Override
+	public int compareTo(FrequencyTreeItem<T> compareItem) {		
+		return compareItem.getCount() - this.count;
 	}
 }

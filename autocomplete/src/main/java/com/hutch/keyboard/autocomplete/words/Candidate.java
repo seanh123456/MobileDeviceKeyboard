@@ -1,4 +1,4 @@
-package com.hutch.keyboard.autocomplete;
+package com.hutch.keyboard.autocomplete.words;
 
 public class Candidate implements ICandidate {
 
@@ -15,5 +15,10 @@ public class Candidate implements ICandidate {
 	}
 	public Integer getConfidence() {
 		return confidence;
+	}
+
+	@Override
+	public String toString() {
+		return "Candidate [word=" + word + ", confidence=" + confidence + "]";
 	}
 }

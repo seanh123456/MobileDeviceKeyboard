@@ -41,6 +41,13 @@ public class FrequencyTreeTest {
 	}
 	
 	@Test
+	public void testFindOneLetter() {
+		// Find existing fragment
+		Character[] path = ArrayUtils.toObject("h".toCharArray());
+		assertEquals(new Integer(8), frequencyTree.findChildren(path).getSize());
+	}
+	
+	@Test
 	public void testFindExisting() {
 		// Find existing fragment
 		Character[] path = ArrayUtils.toObject("hel".toCharArray());
@@ -58,6 +65,13 @@ public class FrequencyTreeTest {
 	public void testListNull() {
 		// List null
 		assertEquals(null, frequencyTree.listChildren(null));
+	}
+	
+	@Test 
+	public void testListOneLetter() {
+		// List existing fragment 
+		Character[] path = ArrayUtils.toObject("h".toCharArray());
+		assertEquals(5, frequencyTree.listChildren(path).size());
 	}
 	
 	@Test 

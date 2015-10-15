@@ -1,4 +1,4 @@
-package com.hutch.keyboard.autocomplete;
+package com.hutch.keyboard.autocomplete.words;
 
 public interface ICandidate {
 	

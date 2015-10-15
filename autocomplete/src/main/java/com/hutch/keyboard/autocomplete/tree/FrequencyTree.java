@@ -2,6 +2,7 @@ package com.hutch.keyboard.autocomplete.tree;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -113,23 +114,33 @@ public class FrequencyTree<T> {
 		if (childTree == null)
 			return null;
 		
-		return childTree.itemizeTree(Arrays.copyOfRange(sequenceFragment, 0, sequenceFragment.length-1));
+		List<FrequencyTreeItem<T>> sequences = childTree.itemizeTree(Arrays.copyOfRange(sequenceFragment, 0, sequenceFragment.length-1));
+		Collections.sort(sequences);
+		
+		return sequences;
 	}
 	
+	/**
+	 * Turn tree into a list of sequences with count
+	 * @param path
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	private List<FrequencyTreeItem<T>> itemizeTree(T[] path) {
 		
 		List<FrequencyTreeItem<T>> itemizedTree = new ArrayList<FrequencyTreeItem<T>>();
 		path = ArrayUtils.addAll(path, this.key);
 		
-		// Count must be > 0 to indicate a term exists
+		// Count must be > 0 to indicate a sequence exists
 		if (this.count > 0)
 			itemizedTree.add(new FrequencyTreeItem<T>(path, this.count));
 		
+		// Done this branch when there are no children
 		if (this.children.isEmpty()) {
 			return itemizedTree;
 		}
 		
+		// More children, keep going
 		for(FrequencyTree<T> child : this.children) {
 			itemizedTree.addAll(child.itemizeTree(path));
 		}
@@ -137,12 +148,18 @@ public class FrequencyTree<T> {
 		return itemizedTree;
 	}
 	
+	/**
+	 * Find child with key from children
+	 * @param key
+	 * @return
+	 */
 	private int getKeyIndex(T key) {
 		if (this.children == null)
 			return -1;
 		
 		int length = this.children.size();
 		
+		// Find key in children
 		for(int i = 0; i < length; i ++) {
 			if (this.children.get(i).key.equals(key)) {
 				return i;
@@ -152,15 +169,21 @@ public class FrequencyTree<T> {
 		return -1;
 	}
 	
+	/**
+	 * Keep order of children largest to smallest (Assumes only child is possibly out of order)
+	 * @param child
+	 */
 	private void optimizeChild(FrequencyTree<T> child) {
 		
 		int index = getKeyIndex(child.key);
 		
+		// If new count of child is larger than neighbor to left, move all smaller neighbors to the left.
 		while (index > 0 && this.children.get(index-1).size < child.size) {
 			this.children.set(index, this.children.get(index-1));
 			index --;
 		}
 		
+		// Put child in empty spot.
 		this.children.set(index, child);
 	}
 
