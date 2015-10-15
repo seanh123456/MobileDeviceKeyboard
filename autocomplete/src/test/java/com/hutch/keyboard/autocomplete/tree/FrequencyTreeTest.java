@@ -2,8 +2,6 @@ package com.hutch.keyboard.autocomplete.tree;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -30,24 +28,50 @@ public class FrequencyTreeTest {
     public void tearDown() {
     	frequencyTree = null;
     }
-    
+	
 	@Test
-	public void test() {		
-		System.out.println(frequencyTree.toString());
+	public void testTree() {
+		assertEquals(new Integer(8), frequencyTree.getSize());
 	}
 	
 	@Test
-	public void testFind() {
+	public void testFindNull() {
+		// Find null
+		assertEquals(null, frequencyTree.findChildren(null));
+	}
+	
+	@Test
+	public void testFindExisting() {
+		// Find existing fragment
 		Character[] path = ArrayUtils.toObject("hel".toCharArray());
-		FrequencyTree<Character> wordFreq = frequencyTree.findChildren(path);
-		System.out.println(wordFreq.toString());
+		assertEquals(new Integer(6), frequencyTree.findChildren(path).getSize());
+	}
+	
+	@Test
+	public void testFindNonExisting() {
+		// Find non-existing fragment
+		Character[] path = ArrayUtils.toObject("help".toCharArray());
+		assertEquals(null, frequencyTree.findChildren(path));
 	}
 	
 	@Test 
-	public void testList() {
+	public void testListNull() {
+		// List null
+		assertEquals(null, frequencyTree.listChildren(null));
+	}
+	
+	@Test 
+	public void testListExisting() {
+		// List existing fragment 
 		Character[] path = ArrayUtils.toObject("hel".toCharArray());
-		List<FrequencyTreeItem<Character>> words = frequencyTree.listChildren(path);
-		System.out.println(words);
+		assertEquals(3, frequencyTree.listChildren(path).size());
+	}
+	
+	@Test 
+	public void testListNonExisting() {
+		// List non-existing fragment
+		Character[] path = ArrayUtils.toObject("help".toCharArray());
+		assertEquals(null, frequencyTree.listChildren(path));
 	}
 
 }
