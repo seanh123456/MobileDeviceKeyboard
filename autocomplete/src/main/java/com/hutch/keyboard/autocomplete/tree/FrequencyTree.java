@@ -23,18 +23,18 @@ public class FrequencyTree<T> {
 	private Integer size;
 	private List<FrequencyTree<T>> children;
 	
-	public FrequencyTree(T key) {
-		this.key = key;
+	public FrequencyTree() {
+		this.key = null;
 		this.count = 0;
 		this.size = 0;
 		this.children = new ArrayList<FrequencyTree<T>>();
 	}
 	
-	public FrequencyTree(T key, List<FrequencyTree<T>> children) {
+	private FrequencyTree(T key) {
 		this.key = key;
 		this.count = 0;
 		this.size = 0;
-		this.children = children;
+		this.children = new ArrayList<FrequencyTree<T>>();
 	}
 	
 	public Integer getSize() {

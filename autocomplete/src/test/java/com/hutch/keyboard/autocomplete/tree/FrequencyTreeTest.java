@@ -13,7 +13,7 @@ public class FrequencyTreeTest {
 
     @Before
     public void setUp() {
-		frequencyTree = new FrequencyTree<Character>(null);
+		frequencyTree = new FrequencyTree<Character>();
 		frequencyTree.addChild(ArrayUtils.toObject("hello".toCharArray()));
 		frequencyTree.addChild(ArrayUtils.toObject("hydra".toCharArray()));
 		frequencyTree.addChild(ArrayUtils.toObject("hydrant".toCharArray()));
