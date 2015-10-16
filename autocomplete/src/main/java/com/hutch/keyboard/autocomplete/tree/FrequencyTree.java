@@ -43,8 +43,11 @@ public class FrequencyTree<T> {
 	}
 	
 	public void addChild(T[] sequence) {
-		this.size ++;
-		addChildRecursive(sequence);
+		
+		if (sequence != null) {
+			this.size ++;
+			addChildRecursive(sequence);
+		}
 	}
 	
 	/**
@@ -57,20 +60,24 @@ public class FrequencyTree<T> {
 		int index = getKeyIndex(sequence[0]);
 		
 		if (index < 0) {
+			// Key does not exist, add new key to children.
 			nextFrag = new FrequencyTree<T>(sequence[0]);
 			this.children.add(nextFrag);
 		} else {
+			// Key exists, use it.
 			nextFrag = this.children.get(index);
 		}
 		
 		nextFrag.size ++;
 		
+		// Put child in the right order.
 		this.optimizeChild(nextFrag);
 		
-		// If there are more keys, keep adding them. Else this is the end, increment count.
 		if (sequence.length > 1) {
+			// Add next key
 			nextFrag.addChildRecursive(Arrays.copyOfRange(sequence, 1, sequence.length));
 		} else {
+			// Finished
 			nextFrag.count ++;
 		}
 	}
@@ -82,21 +89,28 @@ public class FrequencyTree<T> {
 	 * @return Tree from path termFragment
 	 */
 	public FrequencyTree<T> findChildren(T[] sequenceFragment) {
-		if (sequenceFragment == null || sequenceFragment.length <= 0) {
-			// Invalid term fragment
+		if (sequenceFragment == null) {
+			// Invalid fragment
 			return null;
+		} else if (sequenceFragment.length <= 0) {
+			// Get all
+			return this;
 		}
 
 		int index = getKeyIndex(sequenceFragment[0]);
 		
 		if (index >= 0) {
+			// Key found
 			if (sequenceFragment.length == 1) {
+				// End of key, return result
 				return this.children.get(index);
 			} else {
+				// More of key, keep searching
 				return this.children.get(index)
 						.findChildren(Arrays.copyOfRange(sequenceFragment, 1, sequenceFragment.length));
 			}
 		} else {
+			// Key not found
 			return null;
 		}
 	}
@@ -106,6 +120,7 @@ public class FrequencyTree<T> {
 	 * @param termFragment
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public List<FrequencyTreeItem<T>> listChildren(T[] sequenceFragment) {
 		
 		FrequencyTree<T> childTree = this.findChildren(sequenceFragment);
@@ -114,7 +129,16 @@ public class FrequencyTree<T> {
 		if (childTree == null)
 			return null;
 		
-		List<FrequencyTreeItem<T>> sequences = childTree.itemizeTree(Arrays.copyOfRange(sequenceFragment, 0, sequenceFragment.length-1));
+		T[] searchArray = null;
+		if (sequenceFragment.length - 1 < 0) {
+			// Get full tree
+			searchArray = (T[]) new Object[0];
+		} else {
+			// Search tree with fragment
+			searchArray = Arrays.copyOfRange(sequenceFragment, 0, sequenceFragment.length - 1);
+		}
+		
+		List<FrequencyTreeItem<T>> sequences = childTree.itemizeTree(searchArray);
 		Collections.sort(sequences);
 		
 		return sequences;
@@ -126,7 +150,7 @@ public class FrequencyTree<T> {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	private List<FrequencyTreeItem<T>> itemizeTree(T[] path) {
+	public List<FrequencyTreeItem<T>> itemizeTree(T[] path) {
 		
 		List<FrequencyTreeItem<T>> itemizedTree = new ArrayList<FrequencyTreeItem<T>>();
 		path = ArrayUtils.addAll(path, this.key);
@@ -154,7 +178,7 @@ public class FrequencyTree<T> {
 	 * @return
 	 */
 	private int getKeyIndex(T key) {
-		if (this.children == null)
+		if (this.children == null || this.children.isEmpty())
 			return -1;
 		
 		int length = this.children.size();

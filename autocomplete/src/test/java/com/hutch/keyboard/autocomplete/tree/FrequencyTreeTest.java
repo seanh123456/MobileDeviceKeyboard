@@ -28,6 +28,16 @@ public class FrequencyTreeTest {
     public void tearDown() {
     	frequencyTree = null;
     }
+    
+    @Test
+    public void addNull() {
+    	try {
+    		frequencyTree.addChild(null);
+    	} catch(Exception e) {
+    		fail();
+    	}
+    	assertEquals(new Integer(8), frequencyTree.getSize());
+    }
 	
 	@Test
 	public void testTree() {
