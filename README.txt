@@ -18,3 +18,4 @@ Compile: (Command line with maven optional https://maven.apache.org/guides/getti
 Run in Eclipse:
 1. Find Project Explorer tab
 2. Right click on MobileDevice -> Run As -> Java Application
+3. Results are in the console.
