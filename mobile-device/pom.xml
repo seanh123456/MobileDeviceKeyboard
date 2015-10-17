@@ -2,12 +2,12 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.hutch.keyboard</groupId>
   <artifactId>mobile-device</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0</version>
   <dependencies>
   	<dependency>
   		<groupId>com.hutch.keyboard</groupId>
   		<artifactId>autocomplete</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
+  		<version>1.0</version>
   	</dependency>
   </dependencies>
 </project>
