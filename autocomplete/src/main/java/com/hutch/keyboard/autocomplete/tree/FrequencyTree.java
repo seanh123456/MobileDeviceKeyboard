@@ -15,7 +15,7 @@ import org.apache.commons.lang3.ArrayUtils;
  * - Size indicates how many sequences are in the tree below each particular node.
  * @author Sean
  *
- * @param <T>
+ * @param <T> type of the key.
  */
 public class FrequencyTree<T> {
 

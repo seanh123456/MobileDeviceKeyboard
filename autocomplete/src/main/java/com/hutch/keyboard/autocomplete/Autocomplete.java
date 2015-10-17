@@ -6,6 +6,14 @@ import com.hutch.keyboard.autocomplete.words.AutocompleteProvider;
 import com.hutch.keyboard.autocomplete.words.IAutocompleteProvider;
 import com.hutch.keyboard.autocomplete.words.ICandidate;
 
+/**
+ * 
+ * Base autocomplete class. Uses the AutocompleteProvider interface and provides an
+ * api for other projects to use.
+ * 
+ * @author Sean
+ *
+ */
 public class Autocomplete {
 
 	private IAutocompleteProvider provider;

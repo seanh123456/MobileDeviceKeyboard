@@ -8,6 +8,18 @@ import org.apache.commons.lang3.ArrayUtils;
 import com.hutch.keyboard.autocomplete.tree.FrequencyTree;
 import com.hutch.keyboard.autocomplete.tree.FrequencyTreeItem;
 
+
+import com.hutch.keyboard.autocomplete.words.AutocompleteProvider;
+import com.hutch.keyboard.autocomplete.words.IAutocompleteProvider;
+import com.hutch.keyboard.autocomplete.words.ICandidate;
+
+/**
+ * 
+ * Implements a tree container to store words in an easy to fetch and store manner.
+ * 
+ * @author Sean
+ *
+ */
 public class AutocompleteProvider implements IAutocompleteProvider {
 	
 	private FrequencyTree<Character> words;

@@ -8,6 +8,7 @@ public class MobileDevice {
 	private Autocomplete autocomplete;
 	
 	private MobileDevice() {
+		// Implement and test autocomplete module
 		autocomplete = new Autocomplete();
 		System.out.println("Train -> \"The third thing that I need to tell you is that this thing does not think thoroughly.\"");
 		autocomplete.addSentence("The third thing that I need to tell you is that this thing does not think thoroughly.");
